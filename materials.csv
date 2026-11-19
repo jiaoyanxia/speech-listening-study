@@ -1,0 +1,5 @@
+id,phase,sentence,keyword_1,keyword_2,keyword_3,keyword_4,keyword_5,sentence_audio,masker_a,masker_b,pilot_snr_db,source
+P01,practice,"The young boy carried a heavy box.",young,boy,carried,heavy,box,audio/sentences/P01.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,0,Practice placeholder
+P02,practice,"Her old friend bought two red chairs.",old,friend,bought,red,chairs,audio/sentences/P02.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,-3,Practice placeholder
+T01,main,"Please replace this row with a study sentence.",replace,row,study,sentence,please,audio/sentences/T01.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,-6,Replace with sentence source
+T02,main,"Add every main sentence as another table row.",add,main,sentence,table,row,audio/sentences/T02.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,-3,Replace with sentence source
