@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A pilot listening experiment for speech perception and listening effort.">
+  <title>Speech Listening Study</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#app">Skip to main content</a>
+  <header class="site-header">
+    <div class="brand"><span aria-hidden="true" class="brand-mark"></span>Speech Listening Study</div>
+    <div id="progressText" class="progress-text" aria-live="polite"></div>
+  </header>
+  <div class="progress-track" aria-hidden="true"><div id="progressBar" class="progress-bar"></div></div>
+
+  <main id="app" tabindex="-1">
+    <section id="screen-welcome" class="screen card">
+      <p class="eyebrow">Pilot study</p>
+      <h1>Listening in background sound</h1>
+      <p class="lead">You will hear short sentences with background sounds. After each sentence, enter the five words you heard and rate how much effort listening required.</p>
+      <div class="notice">
+        <strong>Before you begin</strong>
+        <ul>
+          <li>Use headphones in a quiet room.</li>
+          <li>Keep the same volume throughout the study.</li>
+          <li>Each sentence can be played once.</li>
+        </ul>
+      </div>
+      <label for="participantId">Participant ID</label>
+      <input id="participantId" type="text" autocomplete="off" maxlength="40" placeholder="e.g., P001">
+      <label class="check-row"><input id="consent" type="checkbox"> <span>I have read the study information and agree to participate.</span></label>
+      <p id="welcomeError" class="error" role="alert"></p>
+      <button id="startButton" class="primary">Continue</button>
+    </section>
+
+    <section id="screen-setup" class="screen card" hidden>
+      <p class="eyebrow">Audio setup</p>
+      <h1>Set a comfortable volume</h1>
+      <p>Play the sample and adjust your device volume. The sound should be clear and comfortable. Do not change the volume after continuing.</p>
+      <button id="testToneButton" class="secondary">Play setup sound</button>
+      <div class="button-row"><button id="setupContinue" class="primary">Volume is comfortable</button></div>
+    </section>
+
+    <section id="screen-instructions" class="screen card" hidden>
+      <p class="eyebrow">Instructions</p>
+      <h1>What to do after each sentence</h1>
+      <ol class="steps">
+        <li>Press <strong>Play sentence</strong> and listen once.</li>
+        <li>Enter five words you heard. Guess if you are unsure.</li>
+        <li>Rate your listening effort, then continue.</li>
+      </ol>
+      <p>The response controls appear after the audio finishes, so you can focus on listening.</p>
+      <button id="instructionsContinue" class="primary">Start practice</button>
+    </section>
+
+    <section id="screen-trial" class="screen card trial-card" hidden>
+      <div class="trial-meta"><span id="phaseLabel" class="pill">Practice</span><span id="trialCount"></span></div>
+      <h1 id="trialHeading">Listen to the sentence</h1>
+      <p id="trialStatus" class="status" aria-live="polite">Press play when you are ready.</p>
+      <button id="playButton" class="play-button"><span aria-hidden="true">▶</span> Play sentence</button>
+
+      <form id="responseForm" hidden>
+        <fieldset>
+          <legend>Enter the five words you heard</legend>
+          <p class="hint">Word order is not graded. Spelling variants can be reviewed later.</p>
+          <div class="keyword-grid">
+            <label>Word 1<input class="keyword-input" type="text" autocomplete="off" required></label>
+            <label>Word 2<input class="keyword-input" type="text" autocomplete="off" required></label>
+            <label>Word 3<input class="keyword-input" type="text" autocomplete="off" required></label>
+            <label>Word 4<input class="keyword-input" type="text" autocomplete="off" required></label>
+            <label>Word 5<input class="keyword-input" type="text" autocomplete="off" required></label>
+          </div>
+        </fieldset>
+        <fieldset class="effort-fieldset">
+          <legend>How much effort did it take to understand this sentence?</legend>
+          <div class="range-labels"><span>No effort</span><span>Extreme effort</span></div>
+          <input id="effortSlider" type="range" min="0" max="100" step="1" value="50" aria-describedby="effortValue">
+          <output id="effortValue" for="effortSlider">50</output>
+        </fieldset>
+        <p id="responseError" class="error" role="alert"></p>
+        <button class="primary" type="submit">Save and continue</button>
+      </form>
+    </section>
+
+    <section id="screen-break" class="screen card" hidden>
+      <p class="eyebrow">Practice complete</p>
+      <h1>Ready for the main study</h1>
+      <p>The main trials work in the same way. Take a short break now if needed.</p>
+      <button id="mainContinue" class="primary">Begin main study</button>
+    </section>
+
+    <section id="screen-finish" class="screen card" hidden>
+      <p class="eyebrow">Complete</p>
+      <h1>Thank you</h1>
+      <p>Your responses are ready. Please download the CSV file and send it to the researcher using the method provided to you.</p>
+      <div id="summary" class="summary"></div>
+      <div class="button-row">
+        <button id="downloadCsv" class="primary">Download CSV data</button>
+        <button id="downloadJson" class="secondary">Download JSON backup</button>
+      </div>
+      <p class="privacy-note">The data stays in this browser until you download it. Closing or refreshing this page may remove it.</p>
+    </section>
+
+    <section id="screen-error" class="screen card" hidden>
+      <p class="eyebrow">Setup needed</p>
+      <h1>Experiment materials could not be loaded</h1>
+      <p id="fatalError"></p>
+    </section>
+  </main>
+
+  <footer>University of Michigan · Pilot listening study</footer>
+  <script src="app.js" defer></script>
+</body>
+</html>
