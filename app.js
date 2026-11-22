@@ -4,6 +4,7 @@ const state = {
   participantId: "",
   materials: [],
   practice: [],
+  optionalPractice: [],
   main: [],
   queue: [],
   phase: "practice",
@@ -15,6 +16,7 @@ const state = {
   currentSources: [],
   usedMaskerOffsets: {},
   lastPlayback: null,
+  optionalPracticeUsed: false,
 };
 
 const $ = (id) => document.getElementById(id);
@@ -80,6 +82,7 @@ async function loadMaterials() {
   if (!materials.length || required.some((key) => !(key in materials[0]))) throw new Error("materials.csv is empty or is missing a required column.");
   state.materials = materials;
   state.practice = assignMaskers(materials.filter((item) => item.phase.toLowerCase() === "practice"));
+  state.optionalPractice = assignMaskers(materials.filter((item) => item.phase.toLowerCase() === "optional_practice"));
   state.main = assignMaskers(materials.filter((item) => item.phase.toLowerCase() === "main"));
   if (!state.practice.length || !state.main.length) throw new Error("Add at least one practice row and one main row to materials.csv.");
 }
@@ -170,7 +173,7 @@ function playSetupSound() {
 }
 
 function updateProgress() {
-  const total = state.practice.length + state.main.length;
+  const total = state.practice.length + state.main.length + (state.optionalPracticeUsed ? state.optionalPractice.length : 0);
   const completed = state.results.length;
   $("progressText").textContent = completed ? `${completed} of ${total} trials complete` : "";
   $("progressBar").style.width = `${total ? (completed / total) * 100 : 0}%`;
@@ -180,11 +183,11 @@ function currentTrial() { return state.queue[state.trialIndex]; }
 
 function renderTrial() {
   const trial = currentTrial();
-  const label = state.phase === "practice" ? "Practice" : "Main study";
+  const label = state.phase === "main" ? "Main study" : state.phase === "optional_practice" ? "Additional practice" : "Practice";
   $("phaseLabel").textContent = label;
   $("trialCount").textContent = `${state.trialIndex + 1} of ${state.queue.length}`;
   $("trialHeading").textContent = "Listen to the sentence";
-  $("trialStatus").textContent = "Press play when you are ready.";
+  $("trialStatus").textContent = trial.assigned_masker === "CompetingSpeech" ? "Focus on the male speaker. Press play when you are ready." : "Press play when you are ready.";
   $("playButton").disabled = false;
   $("playButton").hidden = false;
   $("responseForm").hidden = true;
@@ -230,7 +233,6 @@ function scoreKeywords(responses, trial) {
 function saveResponse(event) {
   event.preventDefault();
   const responses = keywordInputs.map((input) => input.value.trim());
-  if (responses.some((word) => !word)) { $("responseError").textContent = "Please enter all five words. Guess if you are unsure."; return; }
   const trial = currentTrial();
   const endedAt = new Date();
   state.results.push({
@@ -259,14 +261,17 @@ function saveResponse(event) {
   });
   state.trialIndex += 1;
   if (state.trialIndex < state.queue.length) renderTrial();
-  else if (state.phase === "practice") showScreen("break");
+  else if (state.phase !== "main") {
+    $("extraPractice").hidden = state.optionalPracticeUsed || !state.optionalPractice.length;
+    showScreen("break");
+  }
   else finishExperiment();
   updateProgress();
 }
 
 function startPhase(phase) {
   state.phase = phase;
-  state.queue = phase === "practice" ? state.practice : state.main;
+  state.queue = phase === "practice" ? state.practice : phase === "optional_practice" ? state.optionalPractice : state.main;
   state.trialIndex = 0;
   renderTrial();
 }
@@ -319,6 +324,10 @@ $("playButton").addEventListener("click", handlePlay);
 $("responseForm").addEventListener("submit", saveResponse);
 $("effortSlider").addEventListener("input", (event) => { $("effortValue").value = event.target.value; });
 $("mainContinue").addEventListener("click", () => startPhase("main"));
+$("extraPractice").addEventListener("click", () => {
+  state.optionalPracticeUsed = true;
+  startPhase("optional_practice");
+});
 $("downloadCsv").addEventListener("click", exportCsv);
 $("downloadJson").addEventListener("click", exportJson);
 
