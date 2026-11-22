@@ -13,6 +13,7 @@ const state = {
   trialStartedAt: null,
   audioContext: null,
   currentSources: [],
+  usedMaskerOffsets: {},
 };
 
 const $ = (id) => document.getElementById(id);
@@ -54,15 +55,27 @@ function shuffle(items) {
 }
 
 function assignMaskers(items) {
-  const conditions = shuffle(items.map((_, index) => index % 2 === 0 ? "A" : "B"));
-  return shuffle(items).map((item, index) => ({ ...item, assigned_masker: conditions[index] }));
+  const flexible = items.filter((item) => !item.forced_masker);
+  const conditions = shuffle(flexible.map((_, index) => index % 2 === 0 ? "SSN" : "CompetingSpeech"));
+  let conditionIndex = 0;
+  return shuffle(items).map((item) => ({
+    ...item,
+    assigned_masker: item.forced_masker || conditions[conditionIndex++],
+  }));
+}
+
+function maskerSettings(trial) {
+  if (trial.assigned_masker === "SSN") {
+    return { condition: "SSN", path: trial.ssn_audio, snrDb: Number(trial.ssn_snr_db) };
+  }
+  return { condition: "CompetingSpeech", path: trial.competing_speech_audio, snrDb: Number(trial.competing_speech_snr_db) };
 }
 
 async function loadMaterials() {
   const response = await fetch("materials.csv", { cache: "no-store" });
   if (!response.ok) throw new Error(`materials.csv returned ${response.status}`);
   const materials = parseCsv(await response.text());
-  const required = ["id", "phase", "sentence", "keyword_1", "keyword_2", "keyword_3", "keyword_4", "keyword_5", "sentence_audio", "masker_a", "masker_b", "pilot_snr_db"];
+  const required = ["id", "phase", "sentence", "keyword_1", "keyword_2", "keyword_3", "keyword_4", "keyword_5", "sentence_audio", "ssn_audio", "ssn_snr_db", "competing_speech_audio", "competing_speech_snr_db", "forced_masker"];
   if (!materials.length || required.some((key) => !(key in materials[0]))) throw new Error("materials.csv is empty or is missing a required column.");
   state.materials = materials;
   state.practice = assignMaskers(materials.filter((item) => item.phase.toLowerCase() === "practice"));
@@ -93,27 +106,36 @@ function rms(buffer) {
 async function playMixedAudio(trial) {
   const ctx = getAudioContext();
   await ctx.resume();
-  const maskerPath = trial.assigned_masker === "A" ? trial.masker_a : trial.masker_b;
-  const [sentenceBuffer, maskerBuffer] = await Promise.all([fetchAudio(trial.sentence_audio), fetchAudio(maskerPath)]);
+  const masker = maskerSettings(trial);
+  const [sentenceBuffer, maskerBuffer] = await Promise.all([fetchAudio(trial.sentence_audio), fetchAudio(masker.path)]);
   const sentenceSource = ctx.createBufferSource(), maskerSource = ctx.createBufferSource();
   const sentenceGain = ctx.createGain(), maskerGain = ctx.createGain();
   sentenceSource.buffer = sentenceBuffer;
   maskerSource.buffer = maskerBuffer;
-  maskerSource.loop = maskerBuffer.duration < sentenceBuffer.duration;
+  const segmentDuration = sentenceBuffer.duration + 1;
+  if (maskerBuffer.duration < segmentDuration) throw new Error(`${masker.path} must be at least ${segmentDuration.toFixed(1)} seconds long`);
   const speechRms = Math.max(rms(sentenceBuffer), 0.000001);
   const noiseRms = Math.max(rms(maskerBuffer), 0.000001);
-  const snrDb = Number(trial.pilot_snr_db);
+  const snrDb = masker.snrDb;
+  if (!Number.isFinite(snrDb)) throw new Error(`Invalid SNR for ${masker.condition}`);
   sentenceGain.gain.value = 0.72;
   maskerGain.gain.value = 0.72 * (speechRms / noiseRms) / Math.pow(10, snrDb / 20);
   sentenceSource.connect(sentenceGain).connect(ctx.destination);
   maskerSource.connect(maskerGain).connect(ctx.destination);
   const startAt = ctx.currentTime + 0.08;
-  sentenceSource.start(startAt);
-  maskerSource.start(startAt, 0);
+  const maximumOffset = maskerBuffer.duration - segmentDuration;
+  const previousOffsets = state.usedMaskerOffsets[masker.path] || [];
+  let maskerOffset = Math.random() * maximumOffset;
+  for (let attempt = 0; attempt < 20 && previousOffsets.some((offset) => Math.abs(offset - maskerOffset) < segmentDuration); attempt += 1) {
+    maskerOffset = Math.random() * maximumOffset;
+  }
+  previousOffsets.push(maskerOffset);
+  state.usedMaskerOffsets[masker.path] = previousOffsets;
+  maskerSource.start(startAt, maskerOffset, segmentDuration);
+  sentenceSource.start(startAt + 0.5);
   state.currentSources = [sentenceSource, maskerSource];
   await new Promise((resolve) => {
-    sentenceSource.onended = () => {
-      try { maskerSource.stop(); } catch (_) { /* already stopped */ }
+    maskerSource.onended = () => {
       state.currentSources = [];
       resolve();
     };
@@ -201,9 +223,9 @@ function saveResponse(event) {
     trial_id: trial.id,
     sentence: trial.sentence,
     sentence_audio: trial.sentence_audio,
-    masker_condition: trial.assigned_masker,
-    masker_audio: trial.assigned_masker === "A" ? trial.masker_a : trial.masker_b,
-    snr_db: Number(trial.pilot_snr_db),
+    masker_condition: maskerSettings(trial).condition,
+    masker_audio: maskerSettings(trial).path,
+    snr_db: maskerSettings(trial).snrDb,
     expected_keywords: [1,2,3,4,5].map((n) => trial[`keyword_${n}`]).join(" | "),
     response_keywords: responses.join(" | "),
     keyword_score: scoreKeywords(responses, trial),
