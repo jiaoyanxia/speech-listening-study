@@ -22,7 +22,7 @@ Edit `materials.csv`. Keep the header row unchanged.
 
 Put sentence recordings in `audio/sentences/`. Put `SSN.wav` and `CompetingSpeech.wav` in `audio/maskers/`. All files should be mono, 48 kHz WAV. Both maskers should be 120 seconds long and normalized to -26 dBFS RMS.
 
-The program assigns SSN and competing speech evenly across main trials, randomizes trial order, and mixes the signals in the browser at the condition-specific SNR. Each trial uses a different random masker segment lasting the target duration plus one second. The masker begins 0.5 seconds before the target and ends 0.5 seconds after it.
+The program assigns SSN and competing speech evenly across main trials, randomizes trial order, and mixes the signals in the browser at the condition-specific SNR. Each trial uses a different random excerpt from the corresponding 120-second masker. In SSN trials, the noise begins 0.5 seconds before the target and ends 0.5 seconds after it. In competing-speech trials, the male target begins first; the female competing speech enters 0.5 seconds later and ends 0.5 seconds after the target.
 
 ## Preview locally
 
