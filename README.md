@@ -13,14 +13,16 @@ Edit `materials.csv`. Keep the header row unchanged.
 | `sentence` | Sentence transcript |
 | `keyword_1`–`keyword_5` | Five scoring keywords |
 | `sentence_audio` | Relative path to the sentence WAV file |
-| `masker_a` | Relative path to the first masker WAV file |
-| `masker_b` | Relative path to the second masker WAV file |
-| `pilot_snr_db` | Pilot SNR in dB, such as `0`, `-3`, or `-6` |
+| `ssn_audio` | Relative path to `SSN.wav` |
+| `ssn_snr_db` | SNR for SSN trials (`1` for the first pilot) |
+| `competing_speech_audio` | Relative path to `CompetingSpeech.wav` |
+| `competing_speech_snr_db` | SNR for competing speech trials (`-7` for the first pilot) |
+| `forced_masker` | Optional fixed practice condition: `SSN` or `CompetingSpeech`; leave blank for balanced random assignment |
 | `source` | Sentence source or list citation |
 
-Put sentence recordings in `audio/sentences/`. Put the two masker recordings in `audio/maskers/`. WAV files are recommended. Replace every placeholder row before data collection.
+Put sentence recordings in `audio/sentences/`. Put `SSN.wav` and `CompetingSpeech.wav` in `audio/maskers/`. All files should be mono, 48 kHz WAV. Both maskers should be 120 seconds long and normalized to -26 dBFS RMS.
 
-The program assigns masker A and masker B as evenly as possible within each phase, randomizes trial order, calculates the masker gain from the RMS of both audio files, and mixes them in the browser at the SNR in the table.
+The program assigns SSN and competing speech evenly across main trials, randomizes trial order, and mixes the signals in the browser at the condition-specific SNR. Each trial uses a different random masker segment lasting the target duration plus one second. The masker begins 0.5 seconds before the target and ends 0.5 seconds after it.
 
 ## Preview locally
 
