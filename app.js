@@ -14,6 +14,7 @@ const state = {
   audioContext: null,
   currentSources: [],
   usedMaskerOffsets: {},
+  lastPlayback: null,
 };
 
 const $ = (id) => document.getElementById(id);
@@ -131,6 +132,11 @@ async function playMixedAudio(trial) {
   }
   previousOffsets.push(maskerOffset);
   state.usedMaskerOffsets[masker.path] = previousOffsets;
+  state.lastPlayback = {
+    masker_offset_seconds: maskerOffset,
+    masker_segment_seconds: segmentDuration,
+    target_onset_seconds: 0.5,
+  };
   maskerSource.start(startAt, maskerOffset, segmentDuration);
   sentenceSource.start(startAt + 0.5);
   state.currentSources = [sentenceSource, maskerSource];
@@ -226,6 +232,9 @@ function saveResponse(event) {
     masker_condition: maskerSettings(trial).condition,
     masker_audio: maskerSettings(trial).path,
     snr_db: maskerSettings(trial).snrDb,
+    masker_offset_seconds: state.lastPlayback ? Number(state.lastPlayback.masker_offset_seconds.toFixed(3)) : "",
+    masker_segment_seconds: state.lastPlayback ? Number(state.lastPlayback.masker_segment_seconds.toFixed(3)) : "",
+    target_onset_seconds: 0.5,
     expected_keywords: [1,2,3,4,5].map((n) => trial[`keyword_${n}`]).join(" | "),
     response_keywords: responses.join(" | "),
     keyword_score: scoreKeywords(responses, trial),
