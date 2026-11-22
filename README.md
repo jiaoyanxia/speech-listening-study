@@ -9,14 +9,14 @@ Edit `materials.csv`. Keep the header row unchanged.
 | Column | Content |
 | --- | --- |
 | `id` | Unique trial ID |
-| `phase` | `practice` or `main` |
+| `phase` | `practice`, `optional_practice`, or `main` |
 | `sentence` | Sentence transcript |
 | `keyword_1`–`keyword_5` | Five scoring keywords |
 | `sentence_audio` | Relative path to the sentence WAV file |
 | `ssn_audio` | Relative path to `SSN.wav` |
-| `ssn_snr_db` | SNR for SSN trials (`1` for the first pilot) |
+| `ssn_snr_db` | SNR for SSN trials (`3` for the first pilot) |
 | `competing_speech_audio` | Relative path to `CompetingSpeech.wav` |
-| `competing_speech_snr_db` | SNR for competing speech trials (`-7` for the first pilot) |
+| `competing_speech_snr_db` | SNR for competing speech trials (`-5` for the first pilot) |
 | `forced_masker` | Optional fixed practice condition: `SSN` or `CompetingSpeech`; leave blank for balanced random assignment |
 | `source` | Sentence source or list citation |
 
