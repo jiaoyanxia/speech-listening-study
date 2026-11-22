@@ -19,7 +19,7 @@
     <section id="screen-welcome" class="screen card">
       <p class="eyebrow">Pilot study</p>
       <h1>Listening in background sound</h1>
-      <p class="lead">You will hear short sentences with background sounds. After each sentence, enter the five words you heard and rate how much effort listening required.</p>
+      <p class="lead">You will hear short sentences with background sounds. After each sentence, type any words you heard and rate how much effort listening required.</p>
       <div class="notice">
         <strong>Before you begin</strong>
         <ul>
@@ -48,7 +48,7 @@
       <h1>What to do after each sentence</h1>
       <ol class="steps">
         <li>Press <strong>Play sentence</strong> and listen once.</li>
-        <li>Enter five words you heard. Guess if you are unsure.</li>
+        <li>Type the words you heard. You may leave boxes empty.</li>
         <li>Rate your listening effort, then continue.</li>
       </ol>
       <p>The response controls appear after the audio finishes, so you can focus on listening.</p>
@@ -63,14 +63,14 @@
 
       <form id="responseForm" hidden>
         <fieldset>
-          <legend>Enter the five words you heard</legend>
-          <p class="hint">Word order is not graded. Spelling variants can be reviewed later.</p>
+          <legend>Type the words you heard</legend>
+          <p class="hint">Use one box for each word. You may leave boxes empty.</p>
           <div class="keyword-grid">
-            <label>Word 1<input class="keyword-input" type="text" autocomplete="off" required></label>
-            <label>Word 2<input class="keyword-input" type="text" autocomplete="off" required></label>
-            <label>Word 3<input class="keyword-input" type="text" autocomplete="off" required></label>
-            <label>Word 4<input class="keyword-input" type="text" autocomplete="off" required></label>
-            <label>Word 5<input class="keyword-input" type="text" autocomplete="off" required></label>
+            <label>Word 1<input class="keyword-input" type="text" autocomplete="off"></label>
+            <label>Word 2<input class="keyword-input" type="text" autocomplete="off"></label>
+            <label>Word 3<input class="keyword-input" type="text" autocomplete="off"></label>
+            <label>Word 4<input class="keyword-input" type="text" autocomplete="off"></label>
+            <label>Word 5<input class="keyword-input" type="text" autocomplete="off"></label>
           </div>
         </fieldset>
         <fieldset class="effort-fieldset">
@@ -86,9 +86,12 @@
 
     <section id="screen-break" class="screen card" hidden>
       <p class="eyebrow">Practice complete</p>
-      <h1>Ready for the main study</h1>
-      <p>The main trials work in the same way. Take a short break now if needed.</p>
-      <button id="mainContinue" class="primary">Begin main study</button>
+      <h1>Ready for the main study?</h1>
+      <p>The main trials work in the same way. You can try one additional practice sentence or begin the main study now.</p>
+      <div class="button-row">
+        <button id="extraPractice" class="secondary">Try one more practice</button>
+        <button id="mainContinue" class="primary">Begin main study</button>
+      </div>
     </section>
 
     <section id="screen-finish" class="screen card" hidden>
