@@ -125,7 +125,10 @@ async function playMixedAudio(trial) {
   const sentenceGain = ctx.createGain(), maskerGain = ctx.createGain();
   sentenceSource.buffer = sentenceBuffer;
   maskerSource.buffer = maskerBuffer;
-  const segmentDuration = sentenceBuffer.duration + 1;
+  const isCompetingSpeech = masker.condition === "CompetingSpeech";
+  const targetOnset = isCompetingSpeech ? 0 : 0.5;
+  const maskerOnset = isCompetingSpeech ? 0.5 : 0;
+  const segmentDuration = isCompetingSpeech ? sentenceBuffer.duration : sentenceBuffer.duration + 1;
   if (maskerBuffer.duration < segmentDuration) throw new Error(`${masker.path} must be at least ${segmentDuration.toFixed(1)} seconds long`);
   const speechRms = Math.max(rms(sentenceBuffer), 0.000001);
   const noiseRms = Math.max(rms(maskerBuffer), 0.000001);
@@ -150,10 +153,11 @@ async function playMixedAudio(trial) {
   state.lastPlayback = {
     masker_offset_seconds: maskerOffset,
     masker_segment_seconds: segmentDuration,
-    target_onset_seconds: 0.5,
+    masker_onset_seconds: maskerOnset,
+    target_onset_seconds: targetOnset,
   };
-  maskerSource.start(startAt, maskerOffset, segmentDuration);
-  sentenceSource.start(startAt + 0.5);
+  maskerSource.start(startAt + maskerOnset, maskerOffset, segmentDuration);
+  sentenceSource.start(startAt + targetOnset);
   state.currentSources = [sentenceSource, maskerSource];
   await new Promise((resolve) => {
     maskerSource.onended = () => {
@@ -186,8 +190,8 @@ function renderTrial() {
   const label = state.phase === "main" ? "Main study" : state.phase === "optional_practice" ? "Additional practice" : "Practice";
   $("phaseLabel").textContent = label;
   $("trialCount").textContent = `${state.trialIndex + 1} of ${state.queue.length}`;
-  $("trialHeading").textContent = "Listen to the sentence";
-  $("trialStatus").textContent = trial.assigned_masker === "CompetingSpeech" ? "Focus on the male speaker. Press play when you are ready." : "Press play when you are ready.";
+  $("trialHeading").textContent = trial.assigned_masker === "CompetingSpeech" ? "Focus on the male speaker" : "Listen to the sentence";
+  $("trialStatus").textContent = trial.assigned_masker === "CompetingSpeech" ? "The male speaker is the target. Press play when you are ready." : "Press play when you are ready.";
   $("playButton").disabled = false;
   $("playButton").hidden = false;
   $("responseForm").hidden = true;
@@ -248,7 +252,8 @@ function saveResponse(event) {
     snr_db: maskerSettings(trial).snrDb,
     masker_offset_seconds: state.lastPlayback ? Number(state.lastPlayback.masker_offset_seconds.toFixed(3)) : "",
     masker_segment_seconds: state.lastPlayback ? Number(state.lastPlayback.masker_segment_seconds.toFixed(3)) : "",
-    target_onset_seconds: 0.5,
+    masker_onset_seconds: state.lastPlayback ? state.lastPlayback.masker_onset_seconds : "",
+    target_onset_seconds: state.lastPlayback ? state.lastPlayback.target_onset_seconds : "",
     expected_keywords: [1,2,3,4,5].map((n) => trial[`keyword_${n}`]).join(" | "),
     response_keywords: responses.join(" | "),
     keyword_score: scoreKeywords(responses, trial),
