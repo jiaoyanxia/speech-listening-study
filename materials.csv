@@ -1,7 +1,7 @@
 id,phase,sentence,keyword_1,keyword_2,keyword_3,keyword_4,keyword_5,sentence_audio,ssn_audio,ssn_snr_db,competing_speech_audio,competing_speech_snr_db,forced_masker,source
-P01,practice,"The swan dive was far short of perfect.",swan,dive,far,short,perfect,audio/sentences/P01.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,SSN,Hurricane natural speech corpus (original hvd_024.wav)
-P02,practice,"The beauty of the view stunned the young boy.",beauty,view,stunned,young,boy,audio/sentences/P02.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,CompetingSpeech,Hurricane natural speech corpus (original hvd_025.wav)
-P03,practice,"Two blue fish swam in the tank.",two,blue,fish,swam,tank,audio/sentences/P03.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,SSN,Hurricane natural speech corpus (original hvd_026.wav)
+P01,practice,"The swan dive was far short of perfect.",swan,dive,far,short,perfect,audio/sentences/hvd_024.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,SSN,Hurricane natural speech corpus
+P02,practice,"The beauty of the view stunned the young boy.",beauty,view,stunned,young,boy,audio/sentences/hvd_025.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,CompetingSpeech,Hurricane natural speech corpus
+P03,practice,"Two blue fish swam in the tank.",two,blue,fish,swam,tank,audio/sentences/hvd_026.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,SSN,Hurricane natural speech corpus
 T01,main,"The birch canoe slid on the smooth planks.",birch,canoe,slid,smooth,planks,audio/sentences/hvd_001.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,,Hurricane natural speech corpus
 T02,main,"Glue the sheet to the dark blue background.",glue,sheet,dark,blue,background,audio/sentences/hvd_002.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,,Hurricane natural speech corpus
 T03,main,"These days a chicken leg is a rare dish.",days,chicken,leg,rare,dish,audio/sentences/hvd_004.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,,Hurricane natural speech corpus
