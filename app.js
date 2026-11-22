@@ -104,6 +104,15 @@ function rms(buffer) {
   return Math.sqrt(sum / Math.max(samples, 1));
 }
 
+function peak(buffer) {
+  let maximum = 0;
+  for (let channel = 0; channel < buffer.numberOfChannels; channel += 1) {
+    const data = buffer.getChannelData(channel);
+    for (let i = 0; i < data.length; i += 1) maximum = Math.max(maximum, Math.abs(data[i]));
+  }
+  return maximum;
+}
+
 async function playMixedAudio(trial) {
   const ctx = getAudioContext();
   await ctx.resume();
@@ -119,8 +128,11 @@ async function playMixedAudio(trial) {
   const noiseRms = Math.max(rms(maskerBuffer), 0.000001);
   const snrDb = masker.snrDb;
   if (!Number.isFinite(snrDb)) throw new Error(`Invalid SNR for ${masker.condition}`);
-  sentenceGain.gain.value = 0.72;
-  maskerGain.gain.value = 0.72 * (speechRms / noiseRms) / Math.pow(10, snrDb / 20);
+  const relativeMaskerGain = (speechRms / noiseRms) / Math.pow(10, snrDb / 20);
+  const combinedPeak = peak(sentenceBuffer) + peak(maskerBuffer) * relativeMaskerGain;
+  const safeMasterGain = Math.min(1, 0.9 / Math.max(combinedPeak, 0.000001));
+  sentenceGain.gain.value = safeMasterGain;
+  maskerGain.gain.value = safeMasterGain * relativeMaskerGain;
   sentenceSource.connect(sentenceGain).connect(ctx.destination);
   maskerSource.connect(maskerGain).connect(ctx.destination);
   const startAt = ctx.currentTime + 0.08;
