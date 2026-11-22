@@ -1,24 +1,24 @@
-id,phase,sentence,keyword_1,keyword_2,keyword_3,keyword_4,keyword_5,sentence_audio,masker_a,masker_b,pilot_snr_db,source
-P01,practice,"The swan dive was far short of perfect.",swan,dive,far,short,perfect,audio/sentences/P01.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,TBD,Hurricane natural speech corpus (original hvd_024.wav)
-P02,practice,"The beauty of the view stunned the young boy.",beauty,view,stunned,young,boy,audio/sentences/P02.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,TBD,Hurricane natural speech corpus (original hvd_025.wav)
-P03,practice,"Two blue fish swam in the tank.",two,blue,fish,swam,tank,audio/sentences/P03.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,TBD,Hurricane natural speech corpus (original hvd_026.wav)
-T01,main,"The birch canoe slid on the smooth planks.",birch,canoe,slid,smooth,planks,audio/sentences/hvd_001.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,TBD,Hurricane natural speech corpus
-T02,main,"Glue the sheet to the dark blue background.",glue,sheet,dark,blue,background,audio/sentences/hvd_002.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,TBD,Hurricane natural speech corpus
-T03,main,"These days a chicken leg is a rare dish.",days,chicken,leg,rare,dish,audio/sentences/hvd_004.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,TBD,Hurricane natural speech corpus
-T04,main,"Rice is often served in round bowls.",rice,often,served,round,bowls,audio/sentences/hvd_005.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,TBD,Hurricane natural speech corpus
-T05,main,"The juice of lemons makes fine punch.",juice,lemons,makes,fine,punch,audio/sentences/hvd_006.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,TBD,Hurricane natural speech corpus
-T06,main,"The hogs were fed chopped corn and garbage.",hogs,fed,chopped,corn,garbage,audio/sentences/hvd_008.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,TBD,Hurricane natural speech corpus
-T07,main,"Four hours of steady work faced us.",four,hours,steady,work,faced,audio/sentences/hvd_009.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,TBD,Hurricane natural speech corpus
-T08,main,"A large size in stockings is hard to sell.",large,size,stockings,hard,sell,audio/sentences/hvd_010.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,TBD,Hurricane natural speech corpus
-T09,main,"A rod is used to catch pink salmon.",rod,used,catch,pink,salmon,audio/sentences/hvd_012.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,TBD,Hurricane natural speech corpus
-T10,main,"Press the pants and sew a button on the vest.",press,pants,sew,button,vest,audio/sentences/hvd_023.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,TBD,Hurricane natural speech corpus
-T11,main,"The source of the huge river is the clear spring.",source,huge,river,clear,spring,audio/sentences/hvd_013.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,TBD,Hurricane natural speech corpus
-T12,main,"Kick the ball straight and follow through.",kick,ball,straight,follow,through,audio/sentences/hvd_014.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,TBD,Hurricane natural speech corpus
-T13,main,"Help the woman get back to her feet.",help,woman,get,back,feet,audio/sentences/hvd_015.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,TBD,Hurricane natural speech corpus
-T14,main,"A pot of tea helps to pass the evening.",pot,tea,helps,pass,evening,audio/sentences/hvd_016.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,TBD,Hurricane natural speech corpus
-T15,main,"Smoky fires lack flame and heat.",smoky,fires,lack,flame,heat,audio/sentences/hvd_017.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,TBD,Hurricane natural speech corpus
-T16,main,"The soft cushion broke the man's fall.",soft,cushion,broke,man's,fall,audio/sentences/hvd_018.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,TBD,Hurricane natural speech corpus
-T17,main,"The salt breeze came across from the sea.",salt,breeze,came,across,sea,audio/sentences/hvd_019.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,TBD,Hurricane natural speech corpus
-T18,main,"The girl at the booth sold fifty bonds.",girl,booth,sold,fifty,bonds,audio/sentences/hvd_020.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,TBD,Hurricane natural speech corpus
-T19,main,"The small pup gnawed a hole in the sock.",small,pup,gnawed,hole,sock,audio/sentences/hvd_021.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,TBD,Hurricane natural speech corpus
-T20,main,"The fish twisted and turned on the bent hook.",fish,twisted,turned,bent,hook,audio/sentences/hvd_022.wav,audio/maskers/masker-a.wav,audio/maskers/masker-b.wav,TBD,Hurricane natural speech corpus
+id,phase,sentence,keyword_1,keyword_2,keyword_3,keyword_4,keyword_5,sentence_audio,ssn_audio,ssn_snr_db,competing_speech_audio,competing_speech_snr_db,forced_masker,source
+P01,practice,"The swan dive was far short of perfect.",swan,dive,far,short,perfect,audio/sentences/P01.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,SSN,Hurricane natural speech corpus (original hvd_024.wav)
+P02,practice,"The beauty of the view stunned the young boy.",beauty,view,stunned,young,boy,audio/sentences/P02.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,CompetingSpeech,Hurricane natural speech corpus (original hvd_025.wav)
+P03,practice,"Two blue fish swam in the tank.",two,blue,fish,swam,tank,audio/sentences/P03.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,SSN,Hurricane natural speech corpus (original hvd_026.wav)
+T01,main,"The birch canoe slid on the smooth planks.",birch,canoe,slid,smooth,planks,audio/sentences/hvd_001.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,,Hurricane natural speech corpus
+T02,main,"Glue the sheet to the dark blue background.",glue,sheet,dark,blue,background,audio/sentences/hvd_002.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,,Hurricane natural speech corpus
+T03,main,"These days a chicken leg is a rare dish.",days,chicken,leg,rare,dish,audio/sentences/hvd_004.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,,Hurricane natural speech corpus
+T04,main,"Rice is often served in round bowls.",rice,often,served,round,bowls,audio/sentences/hvd_005.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,,Hurricane natural speech corpus
+T05,main,"The juice of lemons makes fine punch.",juice,lemons,makes,fine,punch,audio/sentences/hvd_006.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,,Hurricane natural speech corpus
+T06,main,"The hogs were fed chopped corn and garbage.",hogs,fed,chopped,corn,garbage,audio/sentences/hvd_008.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,,Hurricane natural speech corpus
+T07,main,"Four hours of steady work faced us.",four,hours,steady,work,faced,audio/sentences/hvd_009.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,,Hurricane natural speech corpus
+T08,main,"A large size in stockings is hard to sell.",large,size,stockings,hard,sell,audio/sentences/hvd_010.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,,Hurricane natural speech corpus
+T09,main,"A rod is used to catch pink salmon.",rod,used,catch,pink,salmon,audio/sentences/hvd_012.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,,Hurricane natural speech corpus
+T10,main,"Press the pants and sew a button on the vest.",press,pants,sew,button,vest,audio/sentences/hvd_023.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,,Hurricane natural speech corpus
+T11,main,"The source of the huge river is the clear spring.",source,huge,river,clear,spring,audio/sentences/hvd_013.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,,Hurricane natural speech corpus
+T12,main,"Kick the ball straight and follow through.",kick,ball,straight,follow,through,audio/sentences/hvd_014.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,,Hurricane natural speech corpus
+T13,main,"Help the woman get back to her feet.",help,woman,get,back,feet,audio/sentences/hvd_015.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,,Hurricane natural speech corpus
+T14,main,"A pot of tea helps to pass the evening.",pot,tea,helps,pass,evening,audio/sentences/hvd_016.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,,Hurricane natural speech corpus
+T15,main,"Smoky fires lack flame and heat.",smoky,fires,lack,flame,heat,audio/sentences/hvd_017.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,,Hurricane natural speech corpus
+T16,main,"The soft cushion broke the man's fall.",soft,cushion,broke,man's,fall,audio/sentences/hvd_018.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,,Hurricane natural speech corpus
+T17,main,"The salt breeze came across from the sea.",salt,breeze,came,across,sea,audio/sentences/hvd_019.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,,Hurricane natural speech corpus
+T18,main,"The girl at the booth sold fifty bonds.",girl,booth,sold,fifty,bonds,audio/sentences/hvd_020.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,,Hurricane natural speech corpus
+T19,main,"The small pup gnawed a hole in the sock.",small,pup,gnawed,hole,sock,audio/sentences/hvd_021.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,,Hurricane natural speech corpus
+T20,main,"The fish twisted and turned on the bent hook.",fish,twisted,turned,bent,hook,audio/sentences/hvd_022.wav,audio/maskers/SSN.wav,1,audio/maskers/CompetingSpeech.wav,-7,,Hurricane natural speech corpus
