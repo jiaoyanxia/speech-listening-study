@@ -17,6 +17,8 @@ const state = {
   usedMaskerOffsets: {},
   lastPlayback: null,
   optionalPracticeUsed: false,
+  consentedAt: null,
+  pretest: {},
 };
 
 const $ = (id) => document.getElementById(id);
@@ -25,7 +27,18 @@ const keywordInputs = [...document.querySelectorAll(".keyword-input")];
 
 function showScreen(name) {
   screens.forEach((screen) => { screen.hidden = screen.id !== `screen-${name}`; });
-  $("app").focus();
+  const heading = document.querySelector(`#screen-${name} h1`);
+  if (heading) {
+    heading.setAttribute("tabindex", "-1");
+    heading.focus();
+  } else {
+    $("app").focus();
+  }
+}
+
+function selectedValue(form, name) {
+  const field = new FormData(form).get(name);
+  return field == null ? "" : String(field);
 }
 
 function parseCsv(text) {
@@ -241,6 +254,15 @@ function saveResponse(event) {
   const endedAt = new Date();
   state.results.push({
     participant_id: state.participantId,
+    consented_at: state.consentedAt,
+    age_eligible: state.pretest.age_eligible,
+    native_language: state.pretest.native_language,
+    english_listening_ability: state.pretest.english_listening_ability,
+    english_background: state.pretest.english_background,
+    english_years: state.pretest.english_years,
+    hearing_loss: state.pretest.hearing_loss,
+    hearing_device: state.pretest.hearing_device,
+    temporary_hearing_condition: state.pretest.temporary_hearing_condition,
     phase: state.phase,
     presentation_order: state.results.length + 1,
     phase_order: state.trialIndex + 1,
@@ -314,13 +336,62 @@ function exportCsv() {
 }
 
 function exportJson() {
-  download(`${state.participantId}_listening_study.json`, JSON.stringify({ participant_id: state.participantId, started_at: state.startedAt, ...state.summary, trials: state.results }, null, 2), "application/json");
+  download(`${state.participantId}_listening_study.json`, JSON.stringify({ participant_id: state.participantId, consented_at: state.consentedAt, pretest: state.pretest, started_at: state.startedAt, ...state.summary, trials: state.results }, null, 2), "application/json");
 }
 
-$("startButton").addEventListener("click", () => {
+$("startButton").addEventListener("click", () => showScreen("consent"));
+$("consentForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  if (!$("consent").checked) {
+    $("consentError").textContent = "You must provide consent before continuing.";
+    $("consent").focus();
+    return;
+  }
+  $("consentError").textContent = "";
+  state.consentedAt = new Date().toISOString();
+  state.startedAt = state.consentedAt;
+  showScreen("pretest-participant");
+});
+$("participantForm").addEventListener("submit", (event) => {
+  event.preventDefault();
   const id = $("participantId").value.trim();
-  if (!id || !$("consent").checked) { $("welcomeError").textContent = "Enter a participant ID and confirm consent to continue."; return; }
-  state.participantId = id; state.startedAt = new Date().toISOString(); showScreen("setup");
+  if (!/^[A-Za-z0-9]{4,8}$/.test(id)) {
+    $("participantError").textContent = "Use 4–8 letters or numbers.";
+    $("participantId").focus();
+    return;
+  }
+  $("participantError").textContent = "";
+  state.participantId = id;
+  state.pretest.age_eligible = selectedValue(event.currentTarget, "age_eligible");
+  if (state.pretest.age_eligible === "No") {
+    showScreen("ineligible");
+    return;
+  }
+  showScreen("pretest-language");
+});
+$("languageForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  state.pretest.native_language = $("nativeLanguage").value.trim();
+  state.pretest.english_listening_ability = selectedValue(event.currentTarget, "english_listening_ability");
+  state.pretest.english_background = selectedValue(event.currentTarget, "english_background");
+  if (state.pretest.english_background === "No") {
+    showScreen("pretest-experience");
+  } else {
+    state.pretest.english_years = "Not applicable";
+    showScreen("pretest-hearing");
+  }
+});
+$("experienceForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  state.pretest.english_years = selectedValue(event.currentTarget, "english_years");
+  showScreen("pretest-hearing");
+});
+$("hearingForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  state.pretest.hearing_loss = selectedValue(event.currentTarget, "hearing_loss");
+  state.pretest.hearing_device = selectedValue(event.currentTarget, "hearing_device");
+  state.pretest.temporary_hearing_condition = selectedValue(event.currentTarget, "temporary_hearing_condition");
+  showScreen("setup");
 });
 $("testToneButton").addEventListener("click", playSetupSound);
 $("setupContinue").addEventListener("click", () => showScreen("instructions"));
