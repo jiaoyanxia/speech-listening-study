@@ -1,6 +1,6 @@
 # Speech Listening Study
 
-A static pilot experiment that can be hosted with GitHub Pages. It presents a sentence mixed with one of two maskers at the SNR specified for that material, collects five keyword responses and a listening effort rating, scores exact keyword matches, and exports trial level CSV and JSON files.
+A static pilot experiment that can be hosted with GitHub Pages. The study flow includes an accessible consent form, eligibility and pre-test questionnaire, audio setup, practice, and the main listening task. It presents a sentence mixed with one of two maskers at the SNR specified for that material, collects keyword responses and a listening effort rating, scores exact keyword matches, and exports trial level CSV and JSON files.
 
 ## Add the study materials
 
@@ -45,4 +45,4 @@ GitHub Pages is a static host. Each participant must download the CSV at the end
 
 ## Output
 
-The CSV contains participant ID, phase, order, trial ID, sentence, audio paths, assigned masker, SNR, expected and entered keywords, score, listening effort, response time, source, and timestamps.
+The CSV contains consent time, participant ID, pre-test responses, phase, order, trial ID, sentence, audio paths, assigned masker, SNR, expected and entered keywords, score, listening effort, response time, source, and timestamps. The JSON backup stores the pre-test questionnaire once as study-level metadata.
