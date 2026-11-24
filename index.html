@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="A pilot listening experiment for speech perception and listening effort.">
   <title>Speech Listening Study</title>
-  <link rel="stylesheet" href="styles.css?v=20261122-2">
+  <link rel="stylesheet" href="styles.css?v=20261124-1">
 </head>
 <body>
   <a class="skip-link" href="#app">Skip to main content</a>
@@ -28,11 +28,138 @@
           <li>Each sentence can be played once.</li>
         </ul>
       </div>
-      <label for="participantId">Participant ID</label>
-      <input id="participantId" type="text" autocomplete="off" maxlength="40" placeholder="e.g., P001">
-      <label class="check-row"><input id="consent" type="checkbox"> <span>I have read the study information and agree to participate.</span></label>
-      <p id="welcomeError" class="error" role="alert"></p>
-      <button id="startButton" class="primary">Continue</button>
+      <button id="startButton" class="primary">Review consent form</button>
+    </section>
+
+    <section id="screen-consent" class="screen card" hidden>
+      <p class="eyebrow">Study information and consent</p>
+      <h1>Consent to participate</h1>
+      <div class="consent-content">
+        <h2>Study title</h2>
+        <p>Speech Recognition and Listening Effort in Background Sound</p>
+        <h2>Researcher</h2>
+        <p>Yixuan Jin, MA in Media Arts, University of Michigan</p>
+        <h2>Purpose of the study</h2>
+        <p>This study examines how different types of background sound affect speech recognition and listening effort.</p>
+        <h2>What you will do</h2>
+        <p>You will complete a brief questionnaire about your language and hearing background. You will then listen to short English sentences presented with background sound, type the words you heard, and rate your listening effort after each sentence. The study takes approximately 20–25 minutes.</p>
+        <h2>Risks or discomforts</h2>
+        <p>You may experience mild listening fatigue, frustration, or discomfort from listening to speech in background sound. Set your device to a comfortable volume before beginning. You may take a break before the main study or stop participating at any time.</p>
+        <h2>Benefits</h2>
+        <p>You may not receive a direct benefit from participating. The results may help researchers understand speech perception and listening effort in different background sound conditions.</p>
+        <h2>Privacy and confidentiality</h2>
+        <p>Do not enter your name, email address, student ID, or other identifying information. Your questionnaire and listening responses will be linked using a participant ID that you create. The website does not automatically transmit your responses. At the end, you may download a results file and send it to the researcher.</p>
+        <h2>Voluntary participation</h2>
+        <p>Participation is voluntary. You may skip any response that is not required for eligibility, stop the study, or close the browser without penalty. Before sending your downloaded results to the researcher, the data remains in your browser.</p>
+        <h2>Questions</h2>
+        <p>For questions about the study, contact Yixuan Jin using the contact information provided in the recruitment message.</p>
+      </div>
+      <form id="consentForm">
+        <fieldset class="consent-choice">
+          <legend>Consent decision</legend>
+          <label class="check-row"><input id="consent" name="consent" type="checkbox" required> <span>I confirm that I am 18 years of age or older, have read the information above, and voluntarily agree to participate.</span></label>
+        </fieldset>
+        <p id="consentError" class="error" role="alert"></p>
+        <button class="primary" type="submit">Continue to questionnaire</button>
+      </form>
+    </section>
+
+    <section id="screen-pretest-participant" class="screen card" hidden>
+      <p class="eyebrow">Pre-test questionnaire · 1 of 3</p>
+      <h1>Participant information</h1>
+      <p>This questionnaire asks about your language and hearing background. It will take approximately 1–2 minutes.</p>
+      <form id="participantForm">
+        <label for="participantId">Participant ID</label>
+        <p id="participantIdHelp" class="hint">Create an ID using 4–8 letters or numbers. Do not use your name, email address, student ID, or other identifying information.</p>
+        <input id="participantId" name="participant_id" type="text" autocomplete="off" minlength="4" maxlength="8" pattern="[A-Za-z0-9]{4,8}" aria-describedby="participantIdHelp participantError" required>
+        <fieldset>
+          <legend>Are you 18 years of age or older?</legend>
+          <label class="radio-row"><input type="radio" name="age_eligible" value="Yes" required> Yes</label>
+          <label class="radio-row"><input type="radio" name="age_eligible" value="No"> No</label>
+        </fieldset>
+        <p id="participantError" class="error" role="alert"></p>
+        <button class="primary" type="submit">Continue</button>
+      </form>
+    </section>
+
+    <section id="screen-pretest-language" class="screen card" hidden>
+      <p class="eyebrow">Pre-test questionnaire · 2 of 3</p>
+      <h1>Language background</h1>
+      <form id="languageForm">
+        <label for="nativeLanguage">What is your native language or languages?</label>
+        <input id="nativeLanguage" name="native_language" type="text" autocomplete="off" required>
+        <fieldset>
+          <legend>How would you rate your ability to understand spoken English?</legend>
+          <div class="scale-labels" aria-hidden="true"><span>1 · Very limited</span><span>7 · Native or near-native</span></div>
+          <div class="radio-scale">
+            <label><input type="radio" name="english_listening_ability" value="1" required> 1</label>
+            <label><input type="radio" name="english_listening_ability" value="2"> 2</label>
+            <label><input type="radio" name="english_listening_ability" value="3"> 3</label>
+            <label><input type="radio" name="english_listening_ability" value="4"> 4</label>
+            <label><input type="radio" name="english_listening_ability" value="5"> 5</label>
+            <label><input type="radio" name="english_listening_ability" value="6"> 6</label>
+            <label><input type="radio" name="english_listening_ability" value="7"> 7</label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Is English one of your native languages?</legend>
+          <label class="radio-row"><input type="radio" name="english_background" value="Yes" required> Yes</label>
+          <label class="radio-row"><input type="radio" name="english_background" value="No"> No</label>
+          <label class="radio-row"><input type="radio" name="english_background" value="English and another language"> I grew up using English and another language</label>
+        </fieldset>
+        <button class="primary" type="submit">Continue</button>
+      </form>
+    </section>
+
+    <section id="screen-pretest-experience" class="screen card" hidden>
+      <p class="eyebrow">Pre-test questionnaire · English experience</p>
+      <h1>English experience</h1>
+      <form id="experienceForm">
+        <fieldset>
+          <legend>Approximately how many years have you studied or regularly used English?</legend>
+          <label class="radio-row"><input type="radio" name="english_years" value="Less than 1 year" required> Less than 1 year</label>
+          <label class="radio-row"><input type="radio" name="english_years" value="1–3 years"> 1–3 years</label>
+          <label class="radio-row"><input type="radio" name="english_years" value="4–6 years"> 4–6 years</label>
+          <label class="radio-row"><input type="radio" name="english_years" value="7–10 years"> 7–10 years</label>
+          <label class="radio-row"><input type="radio" name="english_years" value="More than 10 years"> More than 10 years</label>
+        </fieldset>
+        <button class="primary" type="submit">Continue</button>
+      </form>
+    </section>
+
+    <section id="screen-pretest-hearing" class="screen card" hidden>
+      <p class="eyebrow">Pre-test questionnaire · 3 of 3</p>
+      <h1>Hearing background</h1>
+      <form id="hearingForm">
+        <fieldset>
+          <legend>Have you ever been diagnosed with hearing loss?</legend>
+          <label class="radio-row"><input type="radio" name="hearing_loss" value="No" required> No</label>
+          <label class="radio-row"><input type="radio" name="hearing_loss" value="Yes, in one ear"> Yes, in one ear</label>
+          <label class="radio-row"><input type="radio" name="hearing_loss" value="Yes, in both ears"> Yes, in both ears</label>
+          <label class="radio-row"><input type="radio" name="hearing_loss" value="Unsure"> Unsure</label>
+          <label class="radio-row"><input type="radio" name="hearing_loss" value="Prefer not to answer"> Prefer not to answer</label>
+        </fieldset>
+        <fieldset>
+          <legend>Do you currently use a hearing aid, cochlear implant, or other assistive listening device?</legend>
+          <label class="radio-row"><input type="radio" name="hearing_device" value="No" required> No</label>
+          <label class="radio-row"><input type="radio" name="hearing_device" value="Yes"> Yes</label>
+          <label class="radio-row"><input type="radio" name="hearing_device" value="Prefer not to answer"> Prefer not to answer</label>
+        </fieldset>
+        <fieldset>
+          <legend>Are you currently experiencing any temporary condition that may affect your hearing, such as an ear infection, ear pressure, or blocked ears?</legend>
+          <label class="radio-row"><input type="radio" name="temporary_hearing_condition" value="No" required> No</label>
+          <label class="radio-row"><input type="radio" name="temporary_hearing_condition" value="Yes"> Yes</label>
+          <label class="radio-row"><input type="radio" name="temporary_hearing_condition" value="Unsure"> Unsure</label>
+          <label class="radio-row"><input type="radio" name="temporary_hearing_condition" value="Prefer not to answer"> Prefer not to answer</label>
+        </fieldset>
+        <button class="primary" type="submit">Continue to audio setup</button>
+      </form>
+    </section>
+
+    <section id="screen-ineligible" class="screen card" hidden>
+      <p class="eyebrow">Eligibility</p>
+      <h1>Not eligible</h1>
+      <p>Thank you for your interest. You must be 18 years of age or older to participate in this study.</p>
     </section>
 
     <section id="screen-setup" class="screen card" hidden>
@@ -114,6 +241,6 @@
   </main>
 
   <footer>University of Michigan · Pilot listening study</footer>
-  <script src="app.js?v=20261122-2" defer></script>
+  <script src="app.js?v=20261124-1" defer></script>
 </body>
 </html>
